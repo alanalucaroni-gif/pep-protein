@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>PEP — Ciência sem complicação.</title>
+ <meta name="description" content="20g de proteína, 3,6g de fibras e zero açúcar. Conheça os sabores PEP: Limão Taiti, Frutas Vermelhas e Açaí com Guaraná.">
+ <meta name="theme-color" content="#f6f5ed"><link rel="icon" href="./assets/pep-logo.svg" type="image/svg+xml">
+ <link rel="preload" href="./assets/anton.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<a class="skip" href="#sabores">Ir para os sabores</a>
+<header class="header">
+ <a class="brand" href="#inicio" aria-label="PEP, início"><img src="./assets/pep-logo.svg" alt="PEP" width="95" height="39"></a>
+ <nav class="desktop-nav" aria-label="Navegação principal"><a href="#sabores">Sabores</a><a href="#ciencia">A PEP</a><a href="#duvidas">Dúvidas</a></nav>
+ <div class="header-actions"><button class="shop-link cart-toggle" aria-label="Abrir carrinho"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg><span>Carrinho</span><b class="cart-count" hidden>0</b></button><button class="menu-button" aria-controls="menu" aria-expanded="false">MENU <span aria-hidden="true">＋</span></button></div>
+</header>
+<main>
+<section class="story" id="inicio" aria-label="Conheça a PEP">
+ <div class="story-pin">
+  <div class="scene-stage"><canvas id="pep-scene" role="img" aria-label="Lata PEP Limão Taiti. Ao rolar, ela desce, apresenta os benefícios, entra na caixa e revela três sabores selecionáveis."></canvas></div>
+  <img class="scene-fallback" src="./assets/limao.webp" alt="PEP Limão Taiti, lata de 355 ml" width="404" height="1000" fetchpriority="high">
+  <div class="scene-loading" role="status">Preparando sua PEP<span aria-hidden="true">…</span></div>
+  <svg class="hero-rays" viewBox="0 0 300 300" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="17" stroke-linecap="round"><path d="M150 14v75M150 211v75M14 150h75M211 150h75M54 54l53 53M193 193l53 53M54 246l53-53M193 107l53-53"/><path d="m96 20 25 59m59 142 24 59m-184-76 59-25m142-58 59-25m-184 184 25-59m59-142 24-59m-184 76 59 25m142 58 59 25" stroke-width="9"/></g></svg>
+  <div class="can-choices" aria-label="Escolha uma lata em 3D" hidden>
+   <button class="can-pick" data-flavor="frutas" aria-label="Selecionar Frutas Vermelhas"><span>Frutas vermelhas <i aria-hidden="true">＋</i></span></button>
+   <button class="can-pick" data-flavor="limao" aria-label="Selecionar Limão Taiti"><span>Limão Taiti <i aria-hidden="true">＋</i></span></button>
+   <button class="can-pick" data-flavor="acai" aria-label="Selecionar Açaí com Guaraná"><span>Açaí com guaraná <i aria-hidden="true">＋</i></span></button>
+  </div>
+  <section class="product-detail" aria-labelledby="product-title" hidden>
+   <button class="product-close">← Ver os três sabores</button><p class="small-label">SUA PEP · 355 ML</p>
+   <h2 id="product-title" tabindex="-1"></h2><p class="product-description"></p>
+   <dl class="product-specs"><div><dd>20g</dd><dt>PROTEÍNA</dt></div><div><dd>3,6g</dd><dt>FIBRAS</dt></div><div><dd>ZERO</dd><dt>AÇÚCAR</dt></div></dl>
+   <div class="product-order"><div class="quantity" aria-label="Quantidade"><button class="quantity-less" aria-label="Diminuir quantidade">−</button><output class="quantity-value" aria-live="polite">1</output><button class="quantity-more" aria-label="Aumentar quantidade">＋</button></div><button class="add-cart">Adicionar <span aria-hidden="true">＋</span></button></div>
+   <p class="product-feedback" role="status"></p><a class="product-official" target="_blank" rel="noopener">Ingredientes e informações completas ↗</a>
+  </section>
+  <div class="pack-progress" hidden aria-hidden="true"><div><span class="pack-progress-label">SUA PEP</span><span class="pack-progress-value">000%</span></div><div class="pack-progress-track"><span></span></div></div>
+  <button class="pack-trigger" hidden>Revelar os sabores <span aria-hidden="true">↓</span></button>
+  <div class="product-spin-controls" hidden><div><button class="spin-left" aria-label="Girar lata para a esquerda">↶</button><button class="spin-reset">Ver a frente</button><button class="spin-right" aria-label="Girar lata para a direita">↷</button></div></div>
+  <div class="story-bottom"><button class="scroll-cue" type="button" aria-label="Descobrir os benefícios da PEP"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M10 2v15m-5-5 5 5 5-5"/></svg>Role para descobrir</button><span class="volume">355 ML · É PEP.</span></div>
+ </div>
+ <div class="story-content">
+  <article class="scene-copy scene-hero" data-panel="0">
+   <div class="story-title"><p class="small-label">PROTEIN · ENERGY · PEACE</p><h1>CIÊNCIA SEM<br>COMPLICAÇÃO.</h1></div>
+   <div class="hero-facts"><svg viewBox="0 0 150 95" fill="none" aria-hidden="true"><path d="M143 5C71 4 10 29 28 84m-16-9 17 11 9-16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><p><span><strong>20g</strong> de proteína</span><span><strong>3,6g</strong> de fibras</span></p></div>
+   <div class="story-aside"><p>20g de proteína. Zero açúcar. 99 kcal. Cada ingrediente tem um motivo de estar ali e você consegue ler o rótulo e entender tudo.</p><p>Clean label não é tendência pra gente. <strong>É compromisso.</strong></p><a class="oval-link" href="#sabores">Escolha seu sabor <span aria-hidden="true">↗</span></a></div>
+  </article>
+  <article class="scene-copy scene-science" data-panel="1"><div class="chapter-hold">
+   <div class="story-title"><p class="small-label">EM CADA LATA</p><h2>CADA INGREDIENTE.<br>UM MOTIVO.</h2></div>
+   <div class="story-aside facts-aside"><dl><div data-fact="protein"><dt>Proteína</dt><dd>20<span>g</span></dd></div><div data-fact="fiber"><dt>Fibras</dt><dd>3,6<span>g</span></dd></div><div data-fact="sugar"><dt>Açúcar</dt><dd>ZERO</dd></div></dl><p>Ciência que você entende.<br>Um rótulo que faz sentido.</p></div>
+  </div></article>
+  <div class="scene-copy scene-pack" data-panel="2" aria-hidden="true"></div>
+  <div class="scene-copy scene-surprise" data-panel="3" aria-hidden="true"></div>
+  <article class="scene-copy scene-reveal" data-panel="4" id="sabores"><div class="reveal-hold">
+   <div class="story-title"><p class="small-label">ENCONTRE A SUA</p><h2>SEU SABOR.<br>SUA PEP.</h2></div>
+   <div class="story-aside"><p>20g de proteína.<br>3,6g de fibras.<br>Clique na lata<br>para escolher seu sabor.</p></div>
+  </div></article>
+ </div>
+</section>
+<section class="static-flavors section-pad" aria-label="Escolha seu sabor"><h2>ESCOLHA SUA PEP.</h2><div><button data-flavor="frutas">Frutas Vermelhas ＋</button><button data-flavor="limao">Limão Taiti ＋</button><button data-flavor="acai">Açaí com Guaraná ＋</button></div></section>
+<section class="pep-media section-pad" id="midias" aria-labelledby="media-title"><p class="small-label">PROTEIN · ENERGY · PEACE</p><h2 id="media-title">PEP NA VIDA.<br>VIDA EM MOVIMENTO.</h2><div class="pep-media-layout"><div class="pep-media-copy"><p>Seu treino. Sua pausa.<br>Seu próximo gole.</p><p>20g de proteína, 3,6g de fibras e zero açúcar para acompanhar seu ritmo.</p><a class="oval-link" href="#sabores">Encontre sua PEP <span aria-hidden="true">↗</span></a></div><div class="pep-media-stack"><figure class="pep-media-frame" style="--frame-tilt:-6deg;--frame-order:0"><video playsinline preload="none" poster="./assets/pep-video-1.jpg" aria-label="Vídeo oficial da PEP 1" data-src="https://pepprotein.com.br/cdn/shop/videos/c/vp/f950e831a1b84d55919d74b8c07e0f21/f950e831a1b84d55919d74b8c07e0f21.HD-1080p-7.2Mbps-95584062.mp4?v=0"></video><button class="media-play" aria-label="Reproduzir vídeo oficial da PEP 1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 11 7-11 7Z" fill="currentColor"/></svg></button><figcaption>PEP EM MOVIMENTO <span>01</span></figcaption><p class="media-error" role="status" hidden>Vídeo indisponível. <a href="https://pepprotein.com.br/" target="_blank" rel="noopener">Ver no site oficial ↗</a></p></figure><figure class="pep-media-frame" style="--frame-tilt:3deg;--frame-order:1"><video playsinline preload="none" poster="./assets/pep-video-2.jpg" aria-label="Vídeo oficial da PEP 2" data-src="https://pepprotein.com.br/cdn/shop/videos/c/vp/41ada0c55ce8442ab0feb324b9a8a13f/41ada0c55ce8442ab0feb324b9a8a13f.HD-1080p-7.2Mbps-95584059.mp4?v=0"></video><button class="media-play" aria-label="Reproduzir vídeo oficial da PEP 2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 11 7-11 7Z" fill="currentColor"/></svg></button><figcaption>PEP EM MOVIMENTO <span>02</span></figcaption><p class="media-error" role="status" hidden>Vídeo indisponível. <a href="https://pepprotein.com.br/" target="_blank" rel="noopener">Ver no site oficial ↗</a></p></figure><figure class="pep-media-frame" style="--frame-tilt:9deg;--frame-order:2"><video playsinline preload="none" poster="./assets/pep-video-3.jpg" aria-label="Vídeo oficial da PEP 3" data-src="https://pepprotein.com.br/cdn/shop/videos/c/vp/da2ea52852e5403c90c2609b3b2200c1/da2ea52852e5403c90c2609b3b2200c1.HD-1080p-7.2Mbps-95584061.mp4?v=0"></video><button class="media-play" aria-label="Reproduzir vídeo oficial da PEP 3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 11 7-11 7Z" fill="currentColor"/></svg></button><figcaption>PEP EM MOVIMENTO <span>03</span></figcaption><p class="media-error" role="status" hidden>Vídeo indisponível. <a href="https://pepprotein.com.br/" target="_blank" rel="noopener">Ver no site oficial ↗</a></p></figure></div></div></section>
+<section class="science section-pad" id="ciencia" aria-labelledby="science-title">
+ <div class="science-intro"><p class="small-label">CIÊNCIA SEM COMPLICAÇÃO.</p><h2 id="science-title">VOCÊ ENTENDE.<br>SEU RITMO<br>AGRADECE.</h2><div class="science-copy"><p>Cada ingrediente tem um motivo de estar ali e você consegue ler o rótulo e entender tudo.</p><p>Clean label não é tendência pra gente. <strong>É compromisso.</strong></p><a class="text-link" href="#sabores">Encontre sua PEP <span aria-hidden="true">↗</span></a></div></div>
+ <div class="nutrition-grid"><div><strong>20<span>g</span></strong><p>DE PROTEÍNA</p></div><div><strong>3,6<span>g</span></strong><p>DE FIBRAS</p></div><div><strong>ZERO</strong><p>AÇÚCAR</p></div><div><strong>99</strong><p>KCAL</p></div></div>
+</section>
+<section class="flavor-showcase section-pad" id="explorar" aria-labelledby="explore-title"><div class="explore-message"><p class="small-label">PROTEÍNA · FIBRAS · SABOR</p><h2 id="explore-title">TRÊS SABORES.<br>QUAL É<br>A SUA PEP?</h2><p>20g de proteína.<br>3,6g de fibras. Zero açúcar.<br>Escolha seu próximo gole.</p><a class="oval-link" href="#sabores">Ver os três sabores <span aria-hidden="true">↗</span></a></div><div class="explore-product" role="region" aria-roledescription="carrossel" aria-label="Explore os sabores PEP" tabindex="0" style="--flavor-surface:#e0edb5"><div class="explore-topline"><span class="explore-volume">355 ML · SUA PEP</span><span class="explore-count">01 / 03</span></div><svg class="explore-lines" viewBox="0 0 500 500" fill="none" aria-hidden="true"><path d="M-40 320C70 190 175 190 265 305s200 150 285 10M-50 360C75 250 180 245 275 335s195 105 285 0" stroke="currentColor" stroke-width="1.2"/><circle cx="405" cy="80" r="70" stroke="currentColor" stroke-width="1.2"/></svg><div class="explore-model"><img class="explore-fallback" src="./assets/limao.webp" width="404" height="1000" alt="Lata PEP Limão Taiti"><canvas class="explore-canvas" role="img" aria-label="Lata PEP Limão Taiti em 3D"></canvas></div><button class="explore-prev" aria-label="Sabor anterior">←</button><button class="explore-next" aria-label="Próximo sabor">→</button><div class="explore-caption"><p class="explore-name" aria-live="polite" aria-atomic="true">LIMÃO TAITI</p><button class="explore-choose" data-flavor="limao">Escolher limão <span aria-hidden="true">＋</span></button></div></div></section>
+<section class="faq section-pad" id="duvidas" aria-labelledby="faq-title"><div><p class="small-label">SEM COMPLICAÇÃO, MESMO.</p><h2 id="faq-title">FICOU ALGUMA<br>DÚVIDA?</h2></div><div class="faq-list">
+ <details><summary>O que tem em uma PEP?<span aria-hidden="true">＋</span></summary><p>20g de proteína, 3,6g de fibras e zero açúcar em uma lata de 355 ml. Consulte a embalagem para a composição, os alergênicos e a tabela nutricional completa.</p></details>
+ <details><summary>Quais são os sabores?<span aria-hidden="true">＋</span></summary><p>Limão Taiti, Frutas Vermelhas e Açaí com Guaraná. Três maneiras de escolher sua PEP.</p></details>
+ <details><summary>Onde vejo os ingredientes?<span aria-hidden="true">＋</span></summary><p>No rótulo e na página oficial de cada sabor. <a href="#sabores">Escolha um sabor para consultar.</a></p></details>
+ <details><summary>Como faço para comprar?<span aria-hidden="true">＋</span></summary><p>Escolha uma lata para ver suas informações e adicionar à sua seleção. O carrinho desta prévia guarda as quantidades. Preços, frete e pagamento estão disponíveis na loja oficial PEP.</p></details>
+ </div></section>
+</main>
+<footer class="footer section-pad"><div class="footer-top"><p>PROTEÍNA. FIBRAS. SABOR.<br>É PEP.</p><nav aria-label="Navegação do rodapé"><a href="#inicio">Início</a><a href="#sabores">Sabores</a><a href="#ciencia">A PEP</a><a href="#duvidas">Dúvidas</a></nav><a class="footer-top-link" href="#inicio" aria-label="Voltar ao início">↑</a></div><img class="footer-logo" src="./assets/pep-logo.svg" alt="PEP" width="95" height="39"><div class="footer-bottom"><span>PEP PROTEIN</span><span>PROTEIN · ENERGY · PEACE</span><a href="https://pepprotein.com.br/" target="_blank" rel="noopener">Loja oficial ↗</a></div></footer>
+<dialog id="menu" class="menu-dialog" aria-labelledby="menu-title"><div class="menu-head"><img src="./assets/pep-logo.svg" alt="PEP" width="95" height="39"><button class="menu-close" aria-label="Fechar menu">FECHAR ×</button></div><h2 id="menu-title" class="sr-only">Explore a PEP</h2><nav aria-label="Menu"><a href="#inicio">INÍCIO <span aria-hidden="true">↗</span></a><a href="#sabores">SABORES <span aria-hidden="true">↗</span></a><a href="#ciencia">A PEP <span aria-hidden="true">↗</span></a><a href="#duvidas">DÚVIDAS <span aria-hidden="true">↗</span></a></nav><p>PROTEIN · ENERGY · PEACE</p></dialog>
+<dialog id="cart" class="cart-dialog" aria-labelledby="cart-title"><div class="cart-head"><h2 id="cart-title">SUA PEP.</h2><button class="cart-close" aria-label="Fechar carrinho">×</button></div><p class="cart-note">Sua seleção nesta prévia. Pagamento ainda não conectado.</p><div class="cart-items"></div><p class="cart-status" role="status"></p><a class="cart-store" href="https://pepprotein.com.br/" target="_blank" rel="noopener">Comprar na loja oficial ↗</a><p class="cart-disclaimer">Os itens desta prévia não são transferidos para a loja oficial. Consulte preços e disponibilidade por lá.</p></dialog>
+<script type="module" src="./main.js"></script>
+</body></html>
+

@@ -1,0 +1,14 @@
+{
+  "name": "pep-3d-store",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build --config vite.config.mjs",
+    "dev": "vite --config vite.config.mjs",
+    "preview": "vite preview --config vite.config.mjs"
+  },
+  "dependencies": {
+    "three": "0.183.2",
+    "vite": "8.0.13"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.vite/
+.sites-runtime/
+.env*
+!.env.example
+*.log
