@@ -29,15 +29,11 @@ export function initSections(products,reduced){
   choose.innerHTML=`Escolher ${verbs[current]} <span aria-hidden="true">＋</span>`;
   fallback.src=p.image;fallback.alt=`Lata PEP ${p.short}`;canvas.setAttribute('aria-label',`Lata PEP ${p.short} em 3D`);
   model?.select(current,dir);
-  if(!reduced.matches){locked=true;panel.classList.remove('flavor-changing');void name.offsetWidth;panel.classList.add('flavor-changing');clearTimeout(changeTimer);changeTimer=setTimeout(()=>{locked=false;panel.classList.remove('flavor-changing');if(pending.length)change(pending.shift());},950);}
+  if(!reduced.matches){locked=true;panel.classList.remove('flavor-changing');void name.offsetWidth;panel.classList.add('flavor-changing');clearTimeout(changeTimer);changeTimer=setTimeout(()=>{locked=false;panel.classList.remove('flavor-changing');if(pending.length)change(pending.shift());},1150);}
  }
  panel.querySelector('.explore-prev').addEventListener('click',()=>change(-1));
  panel.querySelector('.explore-next').addEventListener('click',()=>change(1));
  canvas.tabIndex=0;
- let dragPointer=null,dragX=0;
- canvas.addEventListener('pointerdown',event=>{dragPointer=event.pointerId;dragX=event.clientX;canvas.setPointerCapture(event.pointerId);canvas.classList.add('dragging');});
- canvas.addEventListener('pointermove',event=>{if(dragPointer!==event.pointerId)return;model?.rotate((event.clientX-dragX)*.009,true);dragX=event.clientX;});
- const release=()=>{dragPointer=null;canvas.classList.remove('dragging');};canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
  panel.addEventListener('keydown',event=>{if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();if(event.target===canvas)model?.rotate(event.key==='ArrowRight'?Math.PI/4:-Math.PI/4);else change(event.key==='ArrowRight'?1:-1);}});
  const loader=new IntersectionObserver(async entries=>{
   if(!entries.some(e=>e.isIntersecting)||reduced.matches)return;loader.disconnect();

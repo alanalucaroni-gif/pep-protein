@@ -172,11 +172,6 @@ menu.addEventListener('close',()=>{menuButton.setAttribute('aria-expanded','fals
  document.querySelector('.menu-close').addEventListener('click',()=>menu.close());menu.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>menu.close()));
 for(const dialog of [menu,cartDialog])dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
 renderCart();update();initSections(products,reduced);
-const spinCanvas=document.querySelector('#pep-scene');let spinPointer=null,spinX=0;
-spinCanvas.addEventListener('pointerdown',event=>{if(!selected||document.body.classList.contains('static-product'))return;spinPointer=event.pointerId;spinX=event.clientX;spinCanvas.setPointerCapture(event.pointerId);spinCanvas.classList.add('dragging');});
-spinCanvas.addEventListener('pointermove',event=>{if(spinPointer!==event.pointerId)return;scene?.rotateSelected((event.clientX-spinX)*.009,true);spinX=event.clientX;});
-function releaseSpin(){spinPointer=null;spinCanvas.classList.remove('dragging');}
-spinCanvas.addEventListener('pointerup',releaseSpin);spinCanvas.addEventListener('pointercancel',releaseSpin);
 document.querySelector('.spin-left').addEventListener('click',()=>scene?.rotateSelected(-Math.PI/4));
 document.querySelector('.spin-right').addEventListener('click',()=>scene?.rotateSelected(Math.PI/4));
 document.querySelector('.spin-reset').addEventListener('click',()=>scene?.resetSelected());

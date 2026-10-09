@@ -106,7 +106,11 @@ function pose(p){
   const contactMap=new THREE.CanvasTexture(stamp);contactMap.colorSpace=THREE.SRGBColorSpace;
   const contact=()=>{const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:contactMap,transparent:true,depthWrite:false,toneMapped:false}));mesh.rotation.x=-Math.PI/2;scene.add(mesh);return mesh;};
   boxContact=contact();boxContact.scale.set(2.3,1.85,1);canContacts=slugs.map(contact);
-  const packageAsset=await new GLTFLoader().loadAsync(new URL('../pep-official-box-3d/pep-caixa-preta.glb',import.meta.url).href);
+  const loader=new GLTFLoader();
+  const [packageAsset,canAssets]=await Promise.all([
+   loader.loadAsync(new URL('../pep-official-box-3d/pep-caixa-preta.glb',import.meta.url).href),
+   Promise.all(slugs.map(slug=>loader.loadAsync(models[slug])))
+  ]);
   box=packageAsset.scene.getObjectByName('PEP_OFFICIAL_BOX');lid=packageAsset.scene.getObjectByName('Lid_Hinge');
   if(!box||!lid)throw new Error('Missing official box geometry');
   box.removeFromParent();box.scale.setScalar(10);scene.add(box);
@@ -114,9 +118,8 @@ function pose(p){
   box.traverse(o=>{if(o.isMesh){o.castShadow=!/Copy|Reminder|Logo|Icon|Panel/i.test(o.name);o.receiveShadow=true;}});
   // Keep separate centimetre-scaled can wrappers as children of a metres-scaled box.
   holders=new THREE.Group();holders.name='Three_Can_Slots';holders.scale.setScalar(.1);box.add(holders);
-  const loader=new GLTFLoader();
-  cans=await Promise.all(slugs.map(async slug=>{
-   const gltf=await loader.loadAsync(models[slug]);const root=gltf.scene.getObjectByName('PEP_CAN_355ML');if(!root)throw new Error('Missing can geometry');
+  cans=await Promise.all(slugs.map(async (slug,index)=>{
+   const gltf=canAssets[index];const root=gltf.scene.getObjectByName('PEP_CAN_355ML');if(!root)throw new Error('Missing can geometry');
    root.removeFromParent();root.scale.setScalar(10);root.updateMatrixWorld(true);
    const bounds=new THREE.Box3().setFromObject(root),center=bounds.getCenter(new THREE.Vector3());root.position.x-=center.x;root.position.z-=center.z;root.position.y-=bounds.min.y;
    root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;for(const m of Array.isArray(o.material)?o.material:[o.material]){
@@ -129,7 +132,10 @@ function pose(p){
   // The box group uses metres with scale 10. Its animated translation must be
   // compensated in the introductory can wrapper, whose coordinates are x10.
   const resize=()=>{const {width,height}=stage.getBoundingClientRect();renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();dirty=true;};new ResizeObserver(resize).observe(stage);resize();
-  ready=true;
+  // Prepare all printed materials before the first public frame and box reveal.
+  pose(0);box.traverse(object=>{object.visible=true;});
+  await renderer.compileAsync(scene,camera);
+  pose(0);renderer.render(scene,camera);ready=true;
   renderer.setAnimationLoop(time=>{
    if(spin!==spinTarget){const t=smooth(0,1,Math.min(1,(time-spinStarted)/320));spin=THREE.MathUtils.lerp(spinFrom,spinTarget,t);dirty=true;}
    const target=selected?1:0;

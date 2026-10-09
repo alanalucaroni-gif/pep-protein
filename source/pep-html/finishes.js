@@ -14,18 +14,31 @@ export function studioEnvironment(renderer){
 function physical(original){const m=new T.MeshPhysicalMaterial();T.MeshStandardMaterial.prototype.copy.call(m,original);return m;}
 
 // Small physical surface variations retain the official uniform paint color.
+const surfaceMaps=new Map();
+function surfaceMap(metal){
+ if(surfaceMaps.has(metal))return surfaceMaps.get(metal);
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=256;
+ const ctx=canvas.getContext('2d'),pixels=ctx.createImageData(256,256);
+ let seed=1729;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+ for(let y=0;y<256;y++){
+  const brush=random();
+  for(let x=0;x<256;x++){
+   const value=Math.round(128+(metal?(brush-.5)*22+(random()-.5)*5:(random()-.5)*45));
+   const offset=(y*256+x)*4;pixels.data[offset]=pixels.data[offset+1]=pixels.data[offset+2]=value;pixels.data[offset+3]=255;
+  }
+ }
+ ctx.putImageData(pixels,0,0);
+ const texture=new T.CanvasTexture(canvas);texture.wrapS=texture.wrapT=T.RepeatWrapping;texture.repeat.set(3,3);
+ texture.anisotropy=4;surfaceMaps.set(metal,texture);return texture;
+}
 function grain(material,metal){
+ material.bumpMap=surfaceMap(metal);material.bumpScale=metal?.000025:.000045;
  const previous=material.onBeforeCompile;
  material.onBeforeCompile=shader=>{
   previous(shader);
-  shader.vertexShader='varying vec3 pepSurfacePosition;\n'+shader.vertexShader;
-  shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\npepSurfacePosition=position;');
-  shader.fragmentShader='varying vec3 pepSurfacePosition;\n'+shader.fragmentShader;
-  const pattern=metal?'sin(pepSurfacePosition.x*18000.0+pepSurfacePosition.z*1000.0)':'sin(dot(pepSurfacePosition,vec3(12000.0,17300.0,9100.0)))*sin(dot(pepSurfacePosition,vec3(21100.0,8000.0,14100.0)))';
-  shader.fragmentShader=shader.fragmentShader.replace('#include <roughnessmap_fragment>',`#include <roughnessmap_fragment>\nroughnessFactor=clamp(roughnessFactor+${metal?.028:.045}*${pattern},.1,1.0);`);
   if(!metal)shader.fragmentShader=shader.fragmentShader.replace('pepInkMask);','pepInkMask*.28);');
  };
- const key=material.customProgramCacheKey();material.customProgramCacheKey=()=>key+(metal?'-brushed-v1':'-grain-v1');
+ const key=material.customProgramCacheKey();material.customProgramCacheKey=()=>key+(metal?'-brushed-v2':'-grain-v2');
  material.needsUpdate=true;
 }
 export function refineCan(root,slug){
