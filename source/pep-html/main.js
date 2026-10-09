@@ -182,7 +182,8 @@ document.querySelector('.spin-right').addEventListener('click',()=>scene?.rotate
 document.querySelector('.spin-reset').addEventListener('click',()=>scene?.resetSelected());
 import('./scene.js').then(async({createExperience})=>{
  scene=await createExperience(document.querySelector('#pep-scene'),document.querySelector('.scene-stage'),positionChoices,finishReturn);
- document.body.classList.add('render-ready');document.body.dataset.model='ready';document.querySelector('.scene-loading').hidden=true;
+ document.body.classList.remove('no-webgl');document.body.classList.add('render-ready');document.body.dataset.model='ready';document.querySelector('.scene-loading').hidden=true;
  lastProgress=-1;update();if(location.hash==='#sabores')goToFlavors();
 }).catch(error=>{console.error(error);document.body.classList.add('no-webgl');document.body.dataset.model='fallback';document.querySelector('.scene-loading').hidden=true;lastProgress=-1;update();});
+
 

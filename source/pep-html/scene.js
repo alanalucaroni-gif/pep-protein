@@ -45,10 +45,10 @@ function pose(p){
  const mobile=stage.clientWidth<800,aspect=camera.aspect;
  const solo=smooth(.61,.69,p)*(1-smooth(.81,.94,p));
  const reveal=smooth(.39,.95,p),framing=smooth(.36,.48,p);
- const distance=mobile?THREE.MathUtils.lerp(7.7,Math.max(11,2.8/(2*Math.tan(THREE.MathUtils.degToRad(15))*aspect)),framing)+advance*1.6:THREE.MathUtils.lerp(4.9,9.6,framing)-advance;
+ const distance=mobile?THREE.MathUtils.lerp(8.5,Math.max(11,2.8/(2*Math.tan(THREE.MathUtils.degToRad(15))*aspect)),framing)+advance*1.6:THREE.MathUtils.lerp(4.9,9.6,framing)-advance;
  camera.position.set(mobile?0:advance*.65,(mobile?THREE.MathUtils.lerp(3.1,4.6,framing):THREE.MathUtils.lerp(3.1,3.3,reveal))-.5*solo,distance-1.1*solo);
  const focusY=2.38-.8*smooth(.39,.51,p)-.65*smooth(.61,.70,p)+.80*smooth(.81,.94,p)-.73*settle-.48*solo;
- camera.lookAt(0,mobile?focusY+THREE.MathUtils.lerp(.194,.55,framing)-.55*solo:focusY,0);
+ camera.lookAt(0,mobile?focusY+THREE.MathUtils.lerp(.25,.55,framing)-.55*solo:focusY,0);
  floor.material.opacity=.045*arrive;
  boxContact.visible=p>.385;boxContact.position.set(box.position.x,-.011,box.position.z);boxContact.material.opacity=.22*arrive;
  box.updateMatrixWorld(true);
@@ -74,7 +74,7 @@ function pose(p){
   for(const part of box.children)if(part!==holders)part.visible=!selected&&selection<.08;
   camera.position.lerp(new THREE.Vector3(0,mobile?3.8:3,mobile?10:7.8),t);
   const selectionFocus=new THREE.Vector3(0,mobile?2.6:1.65,0);
-  const baseFocus=new THREE.Vector3(0,mobile?focusY+THREE.MathUtils.lerp(.194,.55,framing):focusY,0);
+  const baseFocus=new THREE.Vector3(0,mobile?focusY+THREE.MathUtils.lerp(.25,.55,framing):focusY,0);
   camera.lookAt(baseFocus.lerp(selectionFocus,t));floor.material.opacity=0;boxContact.visible=false;
   canContacts.forEach(contact=>{contact.visible=false;});
  }
@@ -150,5 +150,6 @@ rotateSelected(delta,immediate=false){if(!selected||selection<.99)return;spinFro
 resetSelected(){if(!selected)return;spinFrom=spin;spinTarget=Math.round(spin/(Math.PI*2))*Math.PI*2;spinStarted=performance.now();if(reduced.matches)spin=spinTarget;dirty=true;}
 };
 }
+
 
 
