@@ -38,7 +38,7 @@ export async function createFlavorCarousel(canvas,stage,reduced){
  const smooth=t=>t*t*t*(t*(t*6-15)+10);
  const resize=()=>{
   const {width,height}=stage.getBoundingClientRect();renderer.setSize(width,height,false);
-  camera.aspect=width/height;camera.position.set(0,.18,Math.max(3.65,.78/(Math.tan(THREE.MathUtils.degToRad(16))*camera.aspect)));
+  camera.aspect=width/height;camera.position.set(0,.18,Math.max(3.35,.78/(Math.tan(THREE.MathUtils.degToRad(16))*camera.aspect)));
   camera.lookAt(0,0,0);camera.updateProjectionMatrix();dirty=true;
  };
  new ResizeObserver(resize).observe(stage);resize();
@@ -46,14 +46,14 @@ export async function createFlavorCarousel(canvas,stage,reduced){
  renderer.setAnimationLoop(time=>{
   if(spin!==spinTarget){const s=smooth(Math.min(1,(time-spinStarted)/320));spin=TMath(spinFrom,spinTarget,s);dirty=true;}
   if(document.hidden||!visible||(!dirty&&!moving))return;
-  const t=moving?smooth(Math.min(1,(time-start)/950)):1;
+  const t=moving?smooth(Math.min(1,(time-start)/1150)):1;
   cans.forEach((can,i)=>{
    can.visible=i===active||(moving&&t<1&&i===previous);
    can.position.set(0,-.18*(1-entry),0);can.rotation.set(0,0,0);
    if(moving){
     const travel=camera.position.z*Math.tan(THREE.MathUtils.degToRad(16))*camera.aspect+.7;
-    if(i===previous){can.position.x=-direction*t*travel;can.position.z=-t*.8;can.rotation.y=-direction*t*Math.PI*.7;can.rotation.z=-direction*t*.12;}
-    if(i===active){can.position.x=direction*(1-t)*travel;can.position.z=-(1-t)*.8;can.rotation.y=direction*(1-t)*Math.PI*.7;can.rotation.z=direction*(1-t)*.12;}
+    if(i===previous){can.position.x=-direction*t*travel;can.position.z=-t*.8;can.rotation.y=-direction*t*Math.PI*.9;can.rotation.z=-direction*t*.16;}
+    if(i===active){can.position.x=direction*(1-t)*travel;can.position.z=-(1-t)*.8;can.rotation.y=direction*(1-t)*Math.PI*.9;can.rotation.z=direction*(1-t)*.16;}
    }
    if(i===active)can.rotation.y+=spin;
   });

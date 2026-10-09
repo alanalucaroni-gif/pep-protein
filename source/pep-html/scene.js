@@ -20,7 +20,7 @@ function pose(p){
  box.position.set(0,THREE.MathUtils.lerp(-2.65,0,arrive),-.55*advance);
  box.visible=true;
  for(const part of box.children)if(part.name!=='Three_Can_Slots')part.visible=p>.385;
- const wobble=(!reduced.matches&&p>.70&&p<.79)?Math.sin((p-.70)/.09*Math.PI*6)*Math.sin((p-.70)/.09*Math.PI)*.045:0;
+ const wobble=(!reduced.matches&&p>.70&&p<.79)?Math.sin((p-.70)/.09*Math.PI*6)*Math.sin((p-.70)/.09*Math.PI)*.085:0;
  box.rotation.set(0,0,wobble);box.position.x=wobble*.12;
  lid.rotation.x=-Math.PI*102/180*(1-close+reopen);
  cans[0].visible=cans[2].visible=p>.385;
@@ -29,15 +29,15 @@ function pose(p){
  const flight=smooth(.015,.14,p),landing=smooth(.14,.25,p);
  const loneY=1.85-.80*flight+.65*landing;
  const insideY=.34;
- const exitHeight=lift*1.67-settle*(1.67+insideY-.028),forward=.724*(1-lift)+advance*2.0;
+ const exitHeight=lift*1.85-settle*(1.85+insideY-.028),forward=.724*(1-lift)+advance*2.0;
  cans[1].position.set(0,THREE.MathUtils.lerp(loneY,insideY,descend)+exitHeight-box.position.y,forward*descend);
  cans[1].rotation.x=-Math.PI/2*descend*(1-lift);
  // While below the frame, box motion must not drag the introductory can.
  const turn=smooth(.16,.27,p)+smooth(.33,.43,p);
  cans[1].rotation.y=turn*Math.PI;
- cans[1].rotation.z=Math.sin(Math.PI*flight)*.15*(1-landing);
+ cans[1].rotation.z=Math.sin(Math.PI*flight)*.22*(1-landing);
  for(const [index,x] of [[0,-.64],[2,.64]]){
-  cans[index].position.set(x+Math.sign(x)*advance*.31,insideY+exitHeight,forward);
+  cans[index].position.set(x+Math.sign(x)*advance*.38,insideY+exitHeight,forward);
   cans[index].rotation.y=-Math.sign(x)*advance*.11;
   cans[index].rotation.x=-Math.PI/2*(1-lift);
  }
@@ -45,10 +45,10 @@ function pose(p){
  const mobile=stage.clientWidth<800,aspect=camera.aspect;
  const solo=smooth(.61,.69,p)*(1-smooth(.81,.94,p));
  const reveal=smooth(.39,.95,p),framing=smooth(.36,.48,p);
- const distance=mobile?THREE.MathUtils.lerp(8.5,Math.max(11,2.8/(2*Math.tan(THREE.MathUtils.degToRad(15))*aspect)),framing)+advance*1.6:THREE.MathUtils.lerp(4.9,9.6,framing)-advance;
- camera.position.set(mobile?0:advance*.65,(mobile?THREE.MathUtils.lerp(3.1,4.6,framing):THREE.MathUtils.lerp(3.1,3.3,reveal))-.5*solo,distance-1.1*solo);
- const focusY=2.38-.8*smooth(.39,.51,p)-.65*smooth(.61,.70,p)+.80*smooth(.81,.94,p)-.73*settle-.48*solo;
- camera.lookAt(0,mobile?focusY+THREE.MathUtils.lerp(.25,.55,framing)-.55*solo:focusY,0);
+ const distance=mobile?THREE.MathUtils.lerp(7.7,Math.max(11,2.8/(2*Math.tan(THREE.MathUtils.degToRad(15))*aspect)),framing)+advance*1.1:THREE.MathUtils.lerp(4.2,8.8,framing)-advance;
+ camera.position.set(mobile?0:advance*.65,(mobile?THREE.MathUtils.lerp(3.1,4.6,framing):THREE.MathUtils.lerp(3.1,3.3,reveal))-.5*solo,distance-1.35*solo);
+ const focusY=2.38+(mobile?0:.34)*(1-flight)-.8*smooth(.39,.51,p)-.65*smooth(.61,.70,p)+.80*smooth(.81,.94,p)-.73*settle-.48*solo;
+ camera.lookAt(0,mobile?focusY+THREE.MathUtils.lerp(.34,.55,framing)-.55*solo:focusY,0);
  floor.material.opacity=.045*arrive;
  boxContact.visible=p>.385;boxContact.position.set(box.position.x,-.011,box.position.z);boxContact.material.opacity=.22*arrive;
  box.updateMatrixWorld(true);
@@ -72,9 +72,9 @@ function pose(p){
   cans[index].rotation.z=Math.sin(Math.PI*t)*-.035;
   for(let i=0;i<3;i++)if(i!==index)cans[i].visible=!selected&&selection<.12;
   for(const part of box.children)if(part!==holders)part.visible=!selected&&selection<.08;
-  camera.position.lerp(new THREE.Vector3(0,mobile?3.8:3,mobile?10:7.8),t);
+  camera.position.lerp(new THREE.Vector3(0,mobile?3.8:3,mobile?9.2:7.0),t);
   const selectionFocus=new THREE.Vector3(0,mobile?2.6:1.65,0);
-  const baseFocus=new THREE.Vector3(0,mobile?focusY+THREE.MathUtils.lerp(.25,.55,framing):focusY,0);
+  const baseFocus=new THREE.Vector3(0,mobile?focusY+THREE.MathUtils.lerp(.34,.55,framing):focusY,0);
   camera.lookAt(baseFocus.lerp(selectionFocus,t));floor.material.opacity=0;boxContact.visible=false;
   canContacts.forEach(contact=>{contact.visible=false;});
  }
@@ -133,7 +133,7 @@ function pose(p){
   renderer.setAnimationLoop(time=>{
    if(spin!==spinTarget){const t=smooth(0,1,Math.min(1,(time-spinStarted)/320));spin=THREE.MathUtils.lerp(spinFrom,spinTarget,t);dirty=true;}
    const target=selected?1:0;
-   if(selection!==target){const elapsed=THREE.MathUtils.clamp((time-animationStarted)/1150,0,1);selection=THREE.MathUtils.lerp(animationFrom,target,elapsed);dirty=true;}
+   if(selection!==target){const elapsed=THREE.MathUtils.clamp((time-animationStarted)/1400,0,1);selection=THREE.MathUtils.lerp(animationFrom,target,elapsed);dirty=true;}
    const returned=!selected&&selection===0&&returnPending;
    if(!selected&&selection===0)lastSelected=null;
    if(document.hidden||!dirty||!ready)return;
