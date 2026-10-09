@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
 import {applyPrint} from '../pep-pack-3d/label-material.js';
-import {refineCan} from './finishes.js';
+import {refineCan,refineBox,studioEnvironment} from './finishes.js';
 const slugs=['acai','limao','frutas'];
 const models={frutas:new URL('../pep-3d/pep-frutas-foto-frontal.glb',import.meta.url).href,limao:new URL('../pep-3d/pep-limao-foto-frontal.glb',import.meta.url).href,acai:new URL('../pep-3d/pep-acai-foto-frontal.glb',import.meta.url).href};
 export async function createExperience(canvas,stage,onBounds=()=>{},onReturn=()=>{}){
@@ -16,7 +16,7 @@ function pose(p){
  const arrive=smooth(.39,.49,p),descend=smooth(.49,.61,p),close=smooth(.61,.69,p),reopen=smooth(.79,.87,p);
  // Clear the box rim before travelling forward; then settle in front of it.
  // Every pose is a pure function of scroll progress, including reverse scroll.
- const lift=smooth(.87,.93,p),advance=smooth(.93,.967,p),settle=smooth(.967,1,p);
+ const lift=smooth(.87,.925,p),advance=smooth(.925,.955,p),settle=smooth(.955,.978,p);
  box.position.set(0,THREE.MathUtils.lerp(-2.65,0,arrive),-.55*advance);
  box.visible=true;
  for(const part of box.children)if(part.name!=='Three_Can_Slots')part.visible=p>.385;
@@ -43,19 +43,20 @@ function pose(p){
  }
  // Side cans exist inside the box, in the two empty slots. The center can enters.
  const mobile=stage.clientWidth<800,aspect=camera.aspect;
+ const solo=smooth(.61,.69,p)*(1-smooth(.81,.94,p));
  const reveal=smooth(.39,.95,p),framing=smooth(.36,.48,p);
  const distance=mobile?THREE.MathUtils.lerp(7.7,Math.max(11,2.8/(2*Math.tan(THREE.MathUtils.degToRad(15))*aspect)),framing)+advance*1.6:THREE.MathUtils.lerp(4.9,9.6,framing)-advance;
- camera.position.set(mobile?0:advance*.65,mobile?THREE.MathUtils.lerp(3.1,4.6,framing):THREE.MathUtils.lerp(3.1,3.3,reveal),distance);
- const focusY=2.38-.8*smooth(.39,.51,p)-.65*smooth(.61,.70,p)+.80*smooth(.81,.94,p)-.73*settle;
- camera.lookAt(0,mobile?focusY+THREE.MathUtils.lerp(.194,.55,framing):focusY,0);
- floor.material.opacity=.065*arrive;
- boxContact.visible=p>.385;boxContact.position.set(box.position.x,-.011,box.position.z);boxContact.material.opacity=.30*arrive;
+ camera.position.set(mobile?0:advance*.65,(mobile?THREE.MathUtils.lerp(3.1,4.6,framing):THREE.MathUtils.lerp(3.1,3.3,reveal))-.5*solo,distance-1.1*solo);
+ const focusY=2.38-.8*smooth(.39,.51,p)-.65*smooth(.61,.70,p)+.80*smooth(.81,.94,p)-.73*settle-.48*solo;
+ camera.lookAt(0,mobile?focusY+THREE.MathUtils.lerp(.194,.55,framing)-.55*solo:focusY,0);
+ floor.material.opacity=.045*arrive;
+ boxContact.visible=p>.385;boxContact.position.set(box.position.x,-.011,box.position.z);boxContact.material.opacity=.22*arrive;
  box.updateMatrixWorld(true);
  cans.forEach((can,i)=>{
   const position=can.getWorldPosition(new THREE.Vector3()),contact=canContacts[i];
   const height=Math.max(0,position.y),spread=.73+height*.35;
   contact.visible=p>.93;contact.position.set(position.x,-.009,position.z);
-  contact.scale.set(spread,spread,1);contact.material.opacity=.36*Math.exp(-height*2.3);
+  contact.scale.set(spread,spread,1);contact.material.opacity=.25*Math.exp(-height*2.3);
  });
  // Selection is a short, interruptible approach from the actual revealed can.
  // The unselected products recede while specifications occupy the clear right side.
@@ -91,13 +92,14 @@ function pose(p){
 
   renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.9;
-  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.VSMShadowMap;
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   scene=new THREE.Scene();scene.background=null;renderer.setClearColor(0x000000,0);
-  const room=new RoomEnvironment(),pmrem=new THREE.PMREMGenerator(renderer);scene.environment=pmrem.fromScene(room,.035).texture;scene.environmentIntensity=.85;room.dispose();pmrem.dispose();
+  scene.environment=studioEnvironment(renderer);scene.environmentIntensity=.7;
   camera=new THREE.PerspectiveCamera(30,1,.01,100);
   floor=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.ShadowMaterial({opacity:.065}));floor.rotation.x=-Math.PI/2;floor.position.y=-.015;floor.receiveShadow=true;scene.add(floor);
-  const key=new THREE.DirectionalLight('#fffbea',2.6);key.position.set(-3,8,3);key.castShadow=true;key.shadow.mapSize.set(1024,1024);Object.assign(key.shadow.camera,{left:-3,right:3,top:4,bottom:-3,near:.1,far:20});key.shadow.bias=-.00008;key.shadow.normalBias=.004;key.shadow.radius=8;key.shadow.blurSamples=10;scene.add(key);
-  const fill=new THREE.DirectionalLight('#edf3ff',.8);fill.position.set(4,4,-3);scene.add(fill);
+  const key=new THREE.DirectionalLight('#fffaf1',2);key.position.set(-3,7,5);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-3.5,right:3.5,top:4,bottom:-3,near:.1,far:20});key.shadow.bias=-.0001;key.shadow.normalBias=.012;key.shadow.radius=3;scene.add(key);
+  const fill=new THREE.DirectionalLight('#edf3ff',1);fill.position.set(4,3,3);scene.add(fill);
+  const rim=new THREE.DirectionalLight('#ffffff',.7);rim.position.set(1,5,-4);scene.add(rim);
   // Soft contact beneath each product complements the diffuse studio shadow.
   const stamp=document.createElement('canvas');stamp.width=stamp.height=128;const ctx=stamp.getContext('2d');
   const radial=ctx.createRadialGradient(64,64,4,64,64,64);radial.addColorStop(0,'rgba(28,40,28,.45)');radial.addColorStop(.3,'rgba(28,40,28,.25)');radial.addColorStop(.65,'rgba(28,40,28,.06)');radial.addColorStop(1,'rgba(28,40,28,0)');ctx.fillStyle=radial;ctx.fillRect(0,0,128,128);
@@ -108,6 +110,7 @@ function pose(p){
   box=packageAsset.scene.getObjectByName('PEP_OFFICIAL_BOX');lid=packageAsset.scene.getObjectByName('Lid_Hinge');
   if(!box||!lid)throw new Error('Missing official box geometry');
   box.removeFromParent();box.scale.setScalar(10);scene.add(box);
+  refineBox(box);
   box.traverse(o=>{if(o.isMesh){o.castShadow=!/Copy|Reminder|Logo|Icon|Panel/i.test(o.name);o.receiveShadow=true;}});
   // Keep separate centimetre-scaled can wrappers as children of a metres-scaled box.
   holders=new THREE.Group();holders.name='Three_Can_Slots';holders.scale.setScalar(.1);box.add(holders);
@@ -147,3 +150,5 @@ rotateSelected(delta,immediate=false){if(!selected||selection<.99)return;spinFro
 resetSelected(){if(!selected)return;spinFrom=spin;spinTarget=Math.round(spin/(Math.PI*2))*Math.PI*2;spinStarted=performance.now();if(reduced.matches)spin=spinTarget;dirty=true;}
 };
 }
+
+

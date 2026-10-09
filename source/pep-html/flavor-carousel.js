@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
 import {applyPrint} from '../pep-pack-3d/label-material.js';
-import {refineCan} from './finishes.js';
+import {refineCan,studioEnvironment} from './finishes.js';
 
 const slugs=['limao','frutas','acai'];
 const assets=[
@@ -16,11 +16,10 @@ export async function createFlavorCarousel(canvas,stage,reduced){
  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.9;
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(32,1,.01,100);
- const room=new RoomEnvironment(),pmrem=new THREE.PMREMGenerator(renderer);
- scene.environment=pmrem.fromScene(room,.035).texture;scene.environmentIntensity=.85;
- room.dispose();pmrem.dispose();
- const key=new THREE.DirectionalLight('#fffbea',2.6);key.position.set(-3,8,3);scene.add(key);
- const fill=new THREE.DirectionalLight('#edf3ff',.8);fill.position.set(4,4,-3);scene.add(fill);
+ scene.environment=studioEnvironment(renderer);scene.environmentIntensity=.7;
+ const key=new THREE.DirectionalLight('#fffaf1',2);key.position.set(-3,7,5);scene.add(key);
+ const fill=new THREE.DirectionalLight('#edf3ff',1);fill.position.set(4,3,3);scene.add(fill);
+ const rim=new THREE.DirectionalLight('#ffffff',1.2);rim.position.set(1,5,-4);scene.add(rim);
  const loader=new GLTFLoader();
  const cans=await Promise.all(slugs.map(async(slug,i)=>{
   const gltf=await loader.loadAsync(assets[i]),root=gltf.scene.getObjectByName('PEP_CAN_355ML');
@@ -70,3 +69,4 @@ export async function createFlavorCarousel(canvas,stage,reduced){
  };
 }
 const TMath=THREE.MathUtils.lerp;
+

@@ -91,8 +91,8 @@ function update(){
  story.style.setProperty('--science-exit',1-ease(.33,.385,p));
  story.style.setProperty('--pack-title',ease(.42,.46,p));
  story.style.setProperty('--surprise-title',ease(.71,.745,p));
- story.style.setProperty('--reveal-title',ease(.875,.9,p));
- story.style.setProperty('--reveal-copy',ease(.895,.93,p));
+ story.style.setProperty('--reveal-title',ease(.98,.994,p));
+ story.style.setProperty('--reveal-copy',ease(.98,.998,p));
  const packBeat=p>=.39&&p<.895&&!selected&&!document.body.classList.contains('product-returning');
  const packProgress=document.querySelector('.pack-progress');packProgress.hidden=!packBeat;
  const completion=Math.round(100*Math.min(1,Math.max(0,(p-.69)/.18)));
@@ -185,3 +185,4 @@ import('./scene.js').then(async({createExperience})=>{
  document.body.classList.add('render-ready');document.body.dataset.model='ready';document.querySelector('.scene-loading').hidden=true;
  lastProgress=-1;update();if(location.hash==='#sabores')goToFlavors();
 }).catch(error=>{console.error(error);document.body.classList.add('no-webgl');document.body.dataset.model='fallback';document.querySelector('.scene-loading').hidden=true;lastProgress=-1;update();});
+
