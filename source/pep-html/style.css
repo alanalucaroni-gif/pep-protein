@@ -160,4 +160,4 @@ html:has(.product-open),html:has(.product-returning){overflow:hidden;scrollbar-g
 .scroll-cue{border:0;background:transparent;padding:0;pointer-events:auto;color:inherit;font:inherit}.scroll-cue:hover{text-decoration:underline}.scene-copy[aria-hidden="true"] a{pointer-events:none}
 
 /* A single hero product: the photo and WebGL canvas are mutually exclusive. */
-.scene-stage{visibility:hidden}.render-ready:not(.no-webgl) .scene-stage{visibility:visible}.no-webgl .scene-stage{visibility:hidden}.scene-fallback{display:block}.render-ready:not(.no-webgl) .scene-fallback{display:none}.no-webgl .scene-fallback{display:block}
+.scene-stage{visibility:hidden}.render-ready:not(.no-webgl) .scene-stage{visibility:visible}.no-webgl .scene-stage{visibility:hidden}.scene-fallback{display:none}.render-ready:not(.no-webgl) .scene-fallback{display:none}.no-webgl .scene-fallback{display:block}
